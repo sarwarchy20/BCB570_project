@@ -4,20 +4,18 @@ library(ggplot2)
 
 # CAF cell analysis
 objCAF <- readRDS(file = "obj_integrated_all.rds")
+objCAF
 
 caf_cells <- WhichCells(object = objCAF, idents = "CAF")
 length(caf_cells)
 
-set1_sort.mtx<- read.csv("set1_sort_mtx.csv",
-                         row.names=1)
 
-set2_sort.mtx<- read.csv("set2_sort_mtx.csv",
-                         row.names=1)
-
-caf_cells.set1 <- set1_sort.mtx[,intersect(caf_cells,
+# *================ this "set1_sort.mtx" data from main_analysis.R, run before this
+caf_cells.set1 <- set1_sort.mtx[, intersect(caf_cells,
                                         colnames(set1_sort.mtx))]
 dim(caf_cells.set1)
 
+# *================ this "set1_sort.mtx" data from main_analysis.R, run before this
 caf_cells.set2 <- set2_sort.mtx[,intersect(caf_cells,
                                         colnames(set2_sort.mtx))]
 
@@ -29,7 +27,6 @@ Obj.set1.caf_cells<- CreateSeuratObject(counts = caf_cells.set1,
                               min.cells = 5, 
                               min.features = 500)
 Obj.set1.caf_cells
-
 
 Obj.set1.caf_cells <- NormalizeData(Obj.set1.caf_cells, normalization.method = "LogNormalize", scale.factor = 10000)
 
@@ -247,4 +244,3 @@ VlnPlot(objCAF.caf_cells, features = clst0.marker.up$gene[1:6])
 saveRDS(objCAF.caf_cells, file = "objCAF.caf_cells.rds")
 
 # =============================
-
